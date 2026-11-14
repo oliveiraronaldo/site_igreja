@@ -27,19 +27,41 @@ nav a:hover{color:var(--gold)}
 }
 
 /* Hero */
-.hero{background:var(--night);color:var(--white);position:relative;overflow:hidden;padding:clamp(3.5rem,9vw,7rem) 0}
-.hero::before{content:"";position:absolute;right:-8%;top:-30%;width:70vmin;height:70vmin;max-width:760px;max-height:760px;
+/* .hero{background:var(--night);color:var(--white);position:relative;overflow:hidden;padding:clamp(3.5rem,9vw,7rem) 0} */
+/* .hero::before{content:"";position:absolute;right:-8%;top:-30%;width:70vmin;height:70vmin;max-width:760px;max-height:760px;
   background:conic-gradient(from 200deg at 50% 50%,rgba(217,166,59,.0),rgba(217,166,59,.22),rgba(217,166,59,0) 25%,rgba(217,166,59,.12) 40%,rgba(217,166,59,0) 55%);
   border-radius:50%;filter:blur(2px);animation:glow 1.6s ease-out both}
-@keyframes glow{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+@keyframes glow{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}} */
+
+.hero {
+  /* 1. Substitua #101a33 pela cor exata do seu fundo atual, caso seja diferente */
+  background-color: var(--night); 
+  
+  /* 2. Degradê horizontal (90deg) da esquerda para a direita por cima da imagem */
+  background-image: 
+    linear-gradient(
+      90deg, 
+      #101a33 0%, 
+      #101a33 20%, 
+      rgba(16, 26, 51, 0.7) 35%, 
+      rgba(16, 26, 51, 0.4) 55%, 
+      rgba(16, 26, 51, 0.2) 70%
+    ),
+    url('./assets/fachada.PNG'); /* Coloque o caminho da sua imagem aqui */
+
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
 .hero .wrap{position:relative;display:grid;grid-template-columns:1.25fr .75fr;gap:3rem;align-items:end}
-.hero h1{font-size:clamp(2.6rem,7vw,5rem);letter-spacing:-.02em}
+.hero h1{font-size:clamp(2.6rem,7vw,5rem);letter-spacing:-.02em; color:var(--white)}
 .hero .city{margin-top:1rem;font-size:1.2rem;color:#cfd6e8}
 .verse{margin-top:2rem;max-width:34ch;font-family:var(--serif);font-weight:500;font-size:1.25rem;color:var(--gold)}
 .verse small{display:block;margin-top:.3rem;font-family:var(--sans);font-size:.95rem;color:#9fabc9}
 .next{background:var(--night-2);border:1px solid #31426d;border-left:4px solid var(--gold);border-radius:14px;padding:1.5rem}
 .next p{color:#b7c1dc;font-size:.98rem}
-.next strong{display:block;margin:.35rem 0 .2rem;font-family:var(--serif);font-size:1.7rem;line-height:1.15}
+.next strong{display:block;margin:.35rem 0 .2rem;font-family:var(--serif);font-size:1.7rem;line-height:1.15; color: var(--white)}
 .next span{color:var(--gold);font-weight:600;font-size:1.1rem}
 .btns{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
 .btn{display:inline-block;padding:.8rem 1.4rem;border-radius:999px;font-weight:600;text-decoration:none;border:2px solid var(--gold);transition:background .2s,color .2s}
@@ -101,7 +123,7 @@ section{padding:clamp(3.5rem,8vw,6rem) 0}
 #localizacao .lead{color:#b7c1dc}
 .map{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--night)}
 .map iframe{display:block;width:100%;height:clamp(300px,50vw,440px);border:0}
-.maplink{display:inline-block;margin-top:1.25rem;font-weight:600;color:var(--gold-deep)}
+.maplink{display:inline-block;margin-top:1.25rem;font-weight:600;color:var(--gold-deep); text-decoration: none; color:var(--white)}
 
 footer{background:#0b1226;color:#9fabc9;padding:2.5rem 0;font-size:.95rem}
 footer .wrap{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between}
@@ -109,6 +131,16 @@ footer strong{color:var(--white);font-family:var(--serif)}
 
 /* Mobile */
 @media (max-width:860px){
+  .hero {
+    background-image: 
+      linear-gradient(
+        180deg, 
+        #101a33 0%, 
+        rgba(16, 26, 51, 0.85) 60%, 
+        rgba(16, 26, 51, 0.5) 100%
+      ),
+      url('./assets/fachada.PNG');
+    background-position: center;}
   .hero .wrap{grid-template-columns:1fr;gap:2rem}
   .min{grid-template-columns:1fr 1fr}
   .media{grid-template-columns:1fr}
