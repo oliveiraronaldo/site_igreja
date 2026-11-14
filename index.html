@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Assembleia de Deus Missão – Ituiutaba, MG</title>
+    <meta
+      name="description"
+      content="Assembleia de Deus Missão em Ituiutaba, MG. Veja os horários dos cultos, conheça os ministérios e acompanhe nossas transmissões."
+    />
+    <meta name="theme-color" content="#101a33" />
+    <link rel="icon" type="image/png" href="./assets/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Figtree:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <!-- <style>
+:root{
+  --night:#101a33; --night-2:#1b2a4f; --gold:#d9a63b; --gold-deep:#8a6414;
+  --paper:#f7f8fb; --line:#dde1ea; --ink:#1a2238; --muted:#566078; --white:#fff;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;font-size:1.0625rem}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{width:min(1120px,100% - 2.5rem);margin-inline:auto}
+h1,h2,h3{font-family:var(--serif);line-height:1.1;font-weight:700}
+
+/* Header */
+header{position:sticky;top:0;z-index:20;background:rgba(16,26,51,.96);backdrop-filter:blur(8px)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:.7rem;color:var(--white);text-decoration:none;font-family:var(--serif);font-weight:700;font-size:1.1rem}
+.brand svg{width:28px;height:28px;flex:none}
+nav ul{display:flex;gap:1.75rem;list-style:none;padding:0}
+nav a{color:#cfd6e8;text-decoration:none;font-weight:500;font-size:.98rem}
+nav a:hover{color:var(--gold)}
+.menu-btn{display:none;background:none;border:1px solid #3b4a72;color:var(--white);border-radius:8px;padding:.45rem .8rem;font:inherit;font-weight:500;cursor:pointer}
+
+/* Hero */
+.hero{background:var(--night);color:var(--white);position:relative;overflow:hidden;padding:clamp(3.5rem,9vw,7rem) 0}
+.hero::before{content:"";position:absolute;right:-8%;top:-30%;width:70vmin;height:70vmin;max-width:760px;max-height:760px;
+  background:conic-gradient(from 200deg at 50% 50%,rgba(217,166,59,.0),rgba(217,166,59,.22),rgba(217,166,59,0) 25%,rgba(217,166,59,.12) 40%,rgba(217,166,59,0) 55%);
+  border-radius:50%;filter:blur(2px);animation:glow 1.6s ease-out both}
+@keyframes glow{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.25fr .75fr;gap:3rem;align-items:end}
+.hero h1{font-size:clamp(2.6rem,7vw,5rem);letter-spacing:-.02em}
+.hero .city{margin-top:1rem;font-size:1.2rem;color:#cfd6e8}
+.verse{margin-top:2rem;max-width:34ch;font-family:var(--serif);font-weight:500;font-size:1.25rem;color:var(--gold)}
+.verse small{display:block;margin-top:.3rem;font-family:var(--sans);font-size:.95rem;color:#9fabc9}
+.next{background:var(--night-2);border:1px solid #31426d;border-left:4px solid var(--gold);border-radius:14px;padding:1.5rem}
+.next p{color:#b7c1dc;font-size:.98rem}
+.next strong{display:block;margin:.35rem 0 .2rem;font-family:var(--serif);font-size:1.7rem;line-height:1.15}
+.next span{color:var(--gold);font-weight:600;font-size:1.1rem}
+.btns{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.btn{display:inline-block;padding:.8rem 1.4rem;border-radius:999px;font-weight:600;text-decoration:none;border:2px solid var(--gold);transition:background .2s,color .2s}
+.btn.solid{background:var(--gold);color:var(--night)}
+.btn.solid:hover{background:#ebbd5c}
+.btn.ghost{color:var(--white)}
+.btn.ghost:hover{background:rgba(217,166,59,.15)}
+
+/* Sections */
+section{padding:clamp(3.5rem,8vw,6rem) 0}
+.title{font-size:clamp(2rem,4.5vw,3rem);margin-bottom:.6rem}
+.lead{color:var(--muted);max-width:52ch;margin-bottom:2.5rem}
+
+/* Cultos */
+.board{border-top:2px solid var(--ink)}
+.day{display:grid;grid-template-columns:200px 1fr;gap:1.5rem;padding:1.4rem .75rem;border-bottom:1px solid var(--line);align-items:baseline}
+.day h3{font-size:1.6rem}
+.day ul{list-style:none;padding:0;display:grid;gap:.5rem}
+.day li{display:flex;gap:1.25rem;align-items:baseline}
+.day time{font-weight:600;min-width:4.2rem;color:var(--gold-deep);font-variant-numeric:tabular-nums}
+.day.today{background:var(--night);color:var(--white);border-radius:12px;border-bottom-color:transparent}
+.day.today time{color:var(--gold)}
+.today-tag{display:none;margin-left:.6rem;vertical-align:middle;font-family:var(--sans);font-size:.8rem;font-weight:600;background:var(--gold);color:var(--night);border-radius:999px;padding:.15rem .65rem}
+.day.today .today-tag{display:inline-block}
+
+/* Ministérios */
+#ministerios{background:var(--white);border-block:1px solid var(--line)}
+.min{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.min div{background:var(--white);padding:2rem 1.75rem;transition:background .2s}
+.min div:hover{background:#fbf6e8}
+.min h3{font-size:1.5rem;margin-bottom:.4rem}
+.min p{color:var(--muted)}
+.min i{display:block;width:34px;height:4px;background:var(--gold);border-radius:2px;margin-bottom:1.1rem}
+
+/* Mídia */
+#midia{background:var(--night);color:var(--white)}
+#midia .lead{color:#b7c1dc}
+.media{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.media a{display:block;text-decoration:none;border:1px solid #31426d;background:var(--night-2);border-radius:16px;padding:2rem;transition:border-color .2s,transform .2s}
+.media a:hover{border-color:var(--gold);transform:translateY(-3px)}
+.media h3{font-size:1.7rem;margin-bottom:.4rem}
+.media p{color:#b7c1dc;margin-bottom:1rem}
+.media span{color:var(--gold);font-weight:600}
+
+.media a.wa{border-color:var(--gold)}
+
+/* Ofertas */
+.give{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.pix{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:14px;padding:1.75rem}
+.pix p{color:var(--muted);font-size:.98rem}
+.pix code{display:block;margin:.5rem 0 1.25rem;font-family:var(--sans);font-weight:600;font-size:1.15rem;word-break:break-all;color:var(--ink)}
+.pix button{cursor:pointer;font:inherit;background:var(--night);color:var(--white);border:0;border-radius:999px;padding:.8rem 1.4rem;font-weight:600}
+.pix button:hover{background:var(--night-2)}
+.pix .ok{margin-left:.75rem;color:var(--gold-deep);font-weight:600}
+
+/* Localização */
+#localizacao{background:var(--white);border-top:1px solid var(--line)}
+.map{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--line)}
+.map iframe{display:block;width:100%;height:clamp(300px,50vw,440px);border:0}
+.maplink{display:inline-block;margin-top:1.25rem;font-weight:600;color:var(--gold-deep)}
+
+footer{background:#0b1226;color:#9fabc9;padding:2.5rem 0;font-size:.95rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between}
+footer strong{color:var(--white);font-family:var(--serif)}
+
+/* Mobile */
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr;gap:2rem}
+  .min{grid-template-columns:1fr 1fr}
+  .media{grid-template-columns:1fr}
+  .give{grid-template-columns:1fr;gap:1.75rem}
+}
+@media (max-width:640px){
+  .menu-btn{display:block}
+  nav{position:absolute;inset:64px 0 auto 0;background:var(--night);display:none;border-top:1px solid #31426d}
+  nav.open{display:block}
+  nav ul{flex-direction:column;gap:0;padding:.5rem 1.25rem 1rem}
+  nav a{display:block;padding:.8rem 0}
+  .day{grid-template-columns:1fr;gap:.6rem}
+  .min{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style> -->
+  </head>
+  <body>
+    <header>
+      <div class="wrap bar">
+        <a
+          class="brand"
+          href="#inicio"
+          aria-label="Assembleia de Deus Missão – início"
+        >
+          <img id="icon" src="./assets/logo.png" alt="" aria-hidden="true" />
+
+          Assembleia de Deus Missão
+        </a>
+        <button
+          class="menu-btn"
+          id="menuBtn"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          Menu
+        </button>
+        <nav id="menu" aria-label="Principal">
+          <ul>
+            <li><a href="#cultos">Cultos</a></li>
+            <li><a href="#ministerios">Ministérios</a></li>
+            <li><a href="#midia">Mídia</a></li>
+            <li><a href="#ofertas">Ofertas</a></li>
+            <li><a href="#localizacao">Localização</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="wrap">
+          <div>
+            <h1>Assembleia de Deus Missão</h1>
+            <p class="city">Ituiutaba, Minas Gerais</p>
+            <p class="verse">
+              “Alegrei-me quando me disseram: Vamos à casa do Senhor.”<small
+                >Salmos 122:1</small
+              >
+            </p>
+            <div class="btns">
+              <a class="btn solid" href="#cultos">Ver horários dos cultos</a>
+              <a
+                class="btn ghost"
+                href="https://www.youtube.com/@assembleiadedeus.ituiutaba/live"
+                target="_blank"
+                rel="noopener"
+                >Assistir ao vivo</a
+              >
+            </div>
+          </div>
+          <div class="next" aria-live="polite">
+            <p id="nextLabel">Próximo culto</p>
+            <strong id="nextName">Culto de Celebração</strong>
+            <span id="nextWhen">Domingo, 17:30</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="cultos">
+        <div class="wrap">
+          <h2 class="title">Cultos</h2>
+          <p class="lead">
+            Venha como você está. Em todos os cultos, você é bem-vindo.
+          </p>
+          <div class="board" id="board"></div>
+        </div>
+      </section>
+
+      <section id="localizacao">
+        <div class="wrap">
+          <h2 class="title">Localização</h2>
+          <p class="lead">Estamos em Ituiutaba, MG. Venha nos visitar.</p>
+          <div class="map">
+            <iframe
+              title="Mapa da Assembleia de Deus Missão em Ituiutaba"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3772.7930033933885!2d-49.46996198831055!3d-18.984747009498797!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94a231c1dc5e3fe1%3A0xe89d07437d5158a1!2sAssembleia%20de%20Deus%20Miss%C3%A3o%20Ituiutaba!5e0!3m2!1spt-BR!2sbr!4v1794620904179!5m2!1spt-BR!2sbr"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+            ></iframe>
+          </div>
+          <a
+            class="maplink"
+            href="https://www.google.com/maps/search/?api=1&amp;query=Assembleia+de+Deus+Miss%C3%A3o+Ituiutaba"
+            target="_blank"
+            rel="noopener"
+            >Abrir no Google Maps</a
+          >
+        </div>
+      </section>
+
+      <section id="midia">
+        <div class="wrap">
+          <h2 class="title">Mídia</h2>
+          <p class="lead">Acompanhe os cultos e as novidades da igreja.</p>
+          <div class="media">
+            <a
+              href="https://www.youtube.com/@assembleiadedeus.ituiutaba"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="text-decoration: none; display: flex; flex-direction: column; height: 100%;"
+            >
+              <div style="display: flex; align-items: center; gap: 8px">
+                <img
+                  src="./assets/youtube.png"
+                  alt="YouTube"
+                  style="width: 30px; height: 30px; object-fit: contain"
+                />
+                <h3 style="margin: 0">YouTube</h3>
+              </div>
+              <p>Cultos ao vivo e mensagens gravadas.</p>
+              <span style="margin-top: auto; display: inline-flex; align-items: center; gap: 6px;">
+                Abrir o canal &rarr;
+              </span>
+            </a>
+
+            <a
+              href="https://www.instagram.com/assembleiadedeus.ituiutaba"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="text-decoration: none; display: flex; flex-direction: column; height: 100%;"
+            >
+              <div style="display: flex; align-items: center; gap: 8px">
+                <img
+                  src="./assets/instagram.png"
+                  alt="Instagram"
+                  style="width: 30px; height: 30px; object-fit: contain"
+                />
+                <h3 style="margin: 0">Instagram</h3>
+              </div>
+              <p>Avisos, eventos e fotos da nossa comunidade.</p>
+              <span style="margin-top: auto; display: inline-flex; align-items: center; gap: 6px;">
+                @assembleiadedeus.ituiutaba &rarr;
+              </span>
+            </a>
+
+            <a
+              href="https://chat.whatsapp.com/AYAnTS1vn7K410V5juhOML?s=sw&amp;p=i&amp;mlu=4&amp;ilr=4&amp;iam=2"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="text-decoration: none; display: flex; flex-direction: column; height: 100%;"
+            >
+              <div style="display: flex; align-items: center; gap: 8px">
+                <img
+                  src="./assets/whatsapp.png"
+                  alt="WhatsApp"
+                  style="width: 30px; height: 30px; object-fit: contain"
+                />
+                <h3 style="margin: 0">Grupo informativo</h3>
+              </div>
+              <p>Receba os avisos da igreja direto no seu WhatsApp.</p>
+              <span style="margin-top: auto; display: inline-flex; align-items: center; gap: 6px;">
+                Entrar no grupo &rarr;
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="ministerios">
+        <div class="wrap">
+          <h2 class="title">Ministérios</h2>
+          <p class="lead">Um lugar para cada fase da vida.</p>
+          <div class="min">
+            <div class="min_item">
+              <a
+                href="https://www.instagram.com/missaokids.ad?vrfl=eGk1cWdsNHRvcDcw"
+                style="text-decoration: none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i></i>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: none;
+                  "
+                >
+                  <img
+                    src="./assets/missaokids.png"
+                    alt="Instagram"
+                    style="width: 40px; height: 40px; object-fit: contain"
+                  />
+                  <h3 style="margin: 0">Missão Kids</h3>
+                </div>
+                <p>Para as crianças.</p>
+              </a>
+            </div>
+            <div class="min_item">
+              <a
+                href="https://www.instagram.com/missaoteensunaadi?cplk=MWp0dDIyczhjYTd5Mw=="
+                style="text-decoration: none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i></i>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: none;
+                  "
+                >
+                  <img
+                    src="./assets/missaoteens.png"
+                    alt="Instagram"
+                    style="width: 40px; height: 40px; object-fit: contain"
+                  />
+                  <h3 style="margin: 0">Missão Teens</h3>
+                </div>
+                <p>Para os adolescentes.</p>
+              </a>
+            </div>
+            <div class="min_item">
+              <a
+                href="https://www.instagram.com/missaojovem.ituiutaba?psln=MWExNXQxNno0enQ1Zw=="
+                style="text-decoration: none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i></i>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: none;
+                  "
+                >
+                  <img
+                    src="./assets/missaojovem.png"
+                    alt="Instagram"
+                    style="width: 40px; height: 40px; object-fit: contain"
+                  />
+                  <h3 style="margin: 0">Missão Jovem</h3>
+                </div>
+                <p>Para os jovens.</p>
+              </a>
+            </div>
+            <div class="min_item">
+              <a
+                href="https://www.instagram.com/missaomulheres_itba?srtk=MWVmNzV0N2hwcmlmdQ=="
+                style="text-decoration: none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i></i>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: none;
+                  "
+                >
+                  <img
+                    src="./assets/missaomulheres.png"
+                    alt="Instagram"
+                    style="width: 40px; height: 40px; object-fit: contain"
+                  />
+                  <h3 style="margin: 0">Missão com Mulheres</h3>
+                </div>
+                <p>Para as mulheres.</p>
+              </a>
+            </div>
+            <div class="min_item">
+              <a
+                href="https://www.instagram.com/admissaohomens_?rpxt=MXFycWszNjFjbjZxNQ=="
+                style="text-decoration: none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i></i>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: none;
+                  "
+                >
+                  <img
+                    src="./assets/missaohomens.png"
+                    alt="Instagram"
+                    style="width: 40px; height: 40px; object-fit: contain"
+                  />
+                  <h3 style="margin: 0">Missão com Homens</h3>
+                </div>
+                <p>Para os homens.</p>
+              </a>
+            </div>
+            <div class="min_item">
+              <a
+                href="https://www.instagram.com/missaokids.ad?vrfl=eGk1cWdsNHRvcDcw"
+                style="text-decoration: none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i></i>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: none;
+                  "
+                >
+                  <img
+                    src="./assets/melhoridade.png"
+                    alt="Instagram"
+                    style="width: 40px; height: 40px; object-fit: contain"
+                  />
+                  <h3 style="margin: 0">Missão Melhor Idade</h3>
+                </div>
+                <p>Para nossa melhor idade 50+.</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="ofertas">
+  <div class="wrap give">
+    <div>
+      <h2 class="title">Dízimos e ofertas</h2>
+      <p class="lead" style="margin-bottom: 0">
+        Contribua com a obra de Deus em Ituiutaba de onde estiver, pelo
+        PIX.
+      </p>
+    </div>
+
+    <div
+      class="pix"
+      style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;"
+    >
+      <div>
+        <p style="margin-top: 0;">Chave PIX (e-mail)</p>
+        <code id="pixKey">pix.ituiutaba@adsjcampos.com.br</code>
+        <div style="margin-top: 10px;">
+          <button type="button" id="copyPix">Copiar chave PIX</button>
+          <span class="ok" id="copyOk" role="status"></span>
+        </div>
+      </div>
+
+      <img
+        src="./assets/qrcode.png"
+        alt="QR Code para contribuição via PIX"
+        style="width: 140px; height: 140px; object-fit: contain; border-radius: 8px; background: #ffffff; padding: 6px;"
+      />
+    </div>
+  </div>
+</section>
+
+
+    <footer>
+      <div class="wrap">
+        <div><strong>Assembleia de Deus Missão</strong><br />Ituiutaba, MG</div>
+        <div>
+          © <span id="year">2026</span> Assembleia de Deus Missão em Ituiutaba
+        </div>
+      </div>
+    </footer>
+
+    <script src="./script.js"></script>
+    <!-- <script>
+// Programação semanal (0 = domingo)
+var DIAS = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+var CULTOS = [
+  {d:0,h:"09:00",n:"EBD – Escola Bíblica Dominical"},
+  {d:0,h:"17:30",n:"Culto de Celebração"},
+  {d:0,h:"19:30",n:"Culto de Celebração"},
+  {d:1,h:"19:30",n:"Círculo de Oração"},
+  {d:2,h:"19:30",n:"Culto da Palavra"},
+  {d:4,h:"19:30",n:"Culto Fé"}
+];
+
+var hoje = new Date();
+var board = document.getElementById("board");
+[0,1,2,4].forEach(function(d){
+  var itens = CULTOS.filter(function(c){return c.d===d});
+  var row = document.createElement("div");
+  row.className = "day" + (d===hoje.getDay() ? " today" : "");
+  row.innerHTML = '<h3>'+DIAS[d]+'<span class="today-tag">Hoje</span></h3><ul>' +
+    itens.map(function(c){return '<li><time>'+c.h+'</time><span>'+c.n+'</span></li>'}).join("") + '</ul>';
+  board.appendChild(row);
+});
+
+// Próximo culto (usa o horário do visitante)
+(function(){
+  var agora = hoje.getHours()*60 + hoje.getMinutes();
+  var melhor = null, menor = Infinity;
+  CULTOS.forEach(function(c){
+    var p = c.h.split(":"), min = (+p[0])*60 + (+p[1]);
+    var dif = ((c.d - hoje.getDay() + 7) % 7)*1440 + min - agora;
+    if (dif < 0) dif += 7*1440;
+    if (dif < menor){menor = dif; melhor = c;}
+  });
+  if(!melhor) return;
+  var hojeMesmo = melhor.d === hoje.getDay() && menor < 1440;
+  document.getElementById("nextLabel").textContent = hojeMesmo ? "Hoje" : "Próximo culto";
+  document.getElementById("nextName").textContent = melhor.n;
+  document.getElementById("nextWhen").textContent = (hojeMesmo ? "" : DIAS[melhor.d] + ", ") + "às " + melhor.h;
+})();
+
+// Menu mobile
+var btn = document.getElementById("menuBtn"), menu = document.getElementById("menu");
+btn.addEventListener("click", function(){
+  var aberto = menu.classList.toggle("open");
+  btn.setAttribute("aria-expanded", aberto);
+});
+menu.addEventListener("click", function(e){
+  if(e.target.tagName === "A"){menu.classList.remove("open");btn.setAttribute("aria-expanded","false");}
+});
+var copyBtn = document.getElementById("copyPix"), copyOk = document.getElementById("copyOk");
+copyBtn.addEventListener("click", function(){
+  var chave = document.getElementById("pixKey").textContent.trim();
+  function feito(){copyOk.textContent = "Chave copiada!"; setTimeout(function(){copyOk.textContent = "";}, 2500);}
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(chave).then(feito, function(){copyOk.textContent = "Selecione e copie a chave acima.";});
+  } else {
+    var r = document.createRange(); r.selectNodeContents(document.getElementById("pixKey"));
+    var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    try { document.execCommand("copy"); feito(); } catch(e) { copyOk.textContent = "Selecione e copie a chave acima."; }
+  }
+});
+document.getElementById("year").textContent = hoje.getFullYear();
+</script> -->
+  </body>
+</html>
