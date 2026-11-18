@@ -17,9 +17,9 @@ var CULTOS = [
   { d: 4, h: "19:30", n: "Culto Fé" },
 ];
 
-// ---------- Congregações (página congregacoes.html) ----------
+// ---------- Congregações (página congregacoes) ----------
 // A ordem da lista é a ordem do menu. Campos:
-//   id:        usado no link direto (congregacoes.html#id), sem espaços nem acentos
+//   id:        usado no link direto (congregacoes#id), sem espaços nem acentos
 //   nome:      nome da congregação
 //   endereco:  rua, número e bairro (opcional)
 //   instagram: usuário do Instagram, sem o @
@@ -218,7 +218,7 @@ if ($("nextName")) {
     if (mudarLink && window.history && history.replaceState) history.replaceState(null, "", "#" + c.id);
   }
 
-  // Abre a congregação do link (congregacoes.html#natal) ou a primeira
+  // Abre a congregação do link (congregacoes#natal) ou a primeira
   var inicial = 0;
   CONGREGACOES.forEach(function (c, i) { if (location.hash === "#" + c.id) inicial = i; });
   mostrar(inicial, false);

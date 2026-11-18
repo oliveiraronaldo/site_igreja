@@ -1,27 +1,23 @@
 # Configuração compartilhada pelos testes.
-# Sobe um servidor local com o site (a raiz do repositório) só durante os testes.
+# Sobe o servidor local (tests/servidor.py, que imita a Vercel) só durante os testes.
 
-import functools
-import http.server
 import pathlib
 import threading
 
 import pytest
 
+import servidor
+
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 PAGINAS = ["index.html", "ministerios.html", "congregacoes.html"]
-
-
-class _Silencioso(http.server.SimpleHTTPRequestHandler):
-    def log_message(self, *args):
-        pass
+# Endereço público de cada página (vercel.json: "cleanUrls": true)
+ENDERECO = {"index.html": "", "ministerios.html": "ministerios", "congregacoes.html": "congregacoes"}
 
 
 @pytest.fixture(scope="session")
 def site_url():
-    handler = functools.partial(_Silencioso, directory=str(RAIZ))
-    servidor = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
-    thread = threading.Thread(target=servidor.serve_forever, daemon=True)
+    s = servidor.criar()
+    thread = threading.Thread(target=s.serve_forever, daemon=True)
     thread.start()
-    yield "http://127.0.0.1:%d" % servidor.server_address[1]
-    servidor.shutdown()
+    yield "http://127.0.0.1:%d" % s.server_address[1]
+    s.shutdown()

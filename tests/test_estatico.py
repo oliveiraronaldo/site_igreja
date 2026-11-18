@@ -1,13 +1,25 @@
 # Verificações que não precisam de navegador: arquivos, links e dados.
 
 import html.parser
+import json
 import os
 import re
 import urllib.parse
 
 import pytest
 
-from conftest import PAGINAS, RAIZ
+from conftest import ENDERECO, PAGINAS, RAIZ
+
+
+def _arquivo_da_pagina(caminho):
+    """Endereço público -> arquivo: './' -> index.html, 'ministerios' -> ministerios.html."""
+    if caminho.startswith("./"):
+        caminho = caminho[2:]
+    if caminho in ("", "/"):
+        return "index.html"
+    if not caminho.endswith(".html") and (RAIZ / (caminho + ".html")).is_file():
+        return caminho + ".html"
+    return caminho
 
 
 class _Coletor(html.parser.HTMLParser):
@@ -63,7 +75,7 @@ def test_arquivos_referenciados_existem(pagina):
     faltando = []
     for tag, attr, url in _locais(pagina):
         caminho = urllib.parse.unquote(url.split("#")[0].split("?")[0])
-        if caminho and not _existe_com_maiusculas_exatas(caminho):
+        if caminho and not _existe_com_maiusculas_exatas(_arquivo_da_pagina(caminho)):
             faltando.append("<%s %s=%s>" % (tag, attr, url))
     assert not faltando, "Arquivos não encontrados (confira maiúsculas): %s" % faltando
 
@@ -82,7 +94,7 @@ def test_ancoras_apontam_para_secoes_que_existem(pagina):
         if tag != "a" or "#" not in href or re.match(r"^https?:", href):
             continue
         arquivo, ancora = href.split("#", 1)
-        destino = arquivo or pagina
+        destino = _arquivo_da_pagina(arquivo) if arquivo else pagina
         if ancora and ancora not in _ler(destino).ids:
             erros.append(href)
     assert not erros, "Âncoras sem seção correspondente: %s" % erros
@@ -98,7 +110,7 @@ def _menu(pagina):
 
 def test_menu_igual_nas_tres_paginas():
     def normalizar(href):
-        return href.replace("index.html#", "#")
+        return href.replace("./#", "#")
 
     menus = {p: [normalizar(h) for h, _ in _menu(p)] for p in PAGINAS}
     referencia = menus["index.html"]
@@ -109,7 +121,19 @@ def test_menu_igual_nas_tres_paginas():
 @pytest.mark.parametrize("pagina", ["ministerios.html", "congregacoes.html"])
 def test_pagina_atual_marcada_no_menu(pagina):
     atuais = [h for h, atual in _menu(pagina) if atual == "page"]
-    assert atuais == [pagina]
+    assert atuais == [ENDERECO[pagina]]
+
+
+@pytest.mark.parametrize("pagina", PAGINAS)
+def test_links_internos_sem_html(pagina):
+    """Endereços limpos (assembleiadedeusituiutaba.com/congregacoes), sem '.html' nos links."""
+    com_html = [url for tag, attr, url in _locais(pagina) if tag == "a" and ".html" in url]
+    assert not com_html, "Use o endereço sem .html (ex.: 'congregacoes', './#cultos'): %s" % com_html
+
+
+def test_vercel_serve_enderecos_sem_html():
+    config = json.loads((RAIZ / "vercel.json").read_text(encoding="utf-8"))
+    assert config.get("cleanUrls") is True
 
 
 @pytest.mark.parametrize("pagina", PAGINAS)
@@ -137,7 +161,7 @@ def test_pagina_carrega_css_e_script(pagina):
 
 def test_home_tem_chamadas_para_ministerios_e_congregacoes():
     destinos = [a.get("href") for tag, a, _ in _ler("index.html").tags if tag == "a" and "teaser" in a.get("class", "")]
-    assert destinos == ["ministerios.html", "congregacoes.html"]
+    assert destinos == ["ministerios", "congregacoes"]
 
 
 def test_chamada_da_home_cita_todas_as_congregacoes():
@@ -147,7 +171,7 @@ def test_chamada_da_home_cita_todas_as_congregacoes():
     nomes = re.findall(r'^\s*nome:\s*"([^"]+)"', bloco, re.M)
     assert nomes, "Nenhuma congregação encontrada no script.js"
     home = (RAIZ / "index.html").read_text(encoding="utf-8")
-    trecho = home.split('<a class="teaser" href="congregacoes.html">', 1)[1].split("</a>", 1)[0]
+    trecho = home.split('<a class="teaser" href="congregacoes">', 1)[1].split("</a>", 1)[0]
     faltando = [n for n in nomes if n not in trecho]
     assert not faltando, "Congregações não citadas na chamada da home: %s" % faltando
 

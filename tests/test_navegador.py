@@ -6,7 +6,7 @@ import datetime
 
 import pytest
 
-from conftest import PAGINAS
+from conftest import ENDERECO, PAGINAS
 
 TELAS = {
     "celular": {"width": 375, "height": 812},
@@ -47,7 +47,9 @@ def abrir(browser, site_url):
         )
         if agora:
             page.clock.install(time=agora)
-        page.goto("%s/%s" % (site_url, pagina))
+        # abre pelo endereço público, sem .html (ex.: /congregacoes#natal)
+        arquivo, _, ancora = pagina.partition("#")
+        page.goto("%s/%s%s" % (site_url, ENDERECO.get(arquivo, arquivo), "#" + ancora if ancora else ""))
         page.wait_for_load_state("load")
         return page, problemas
 
@@ -117,19 +119,36 @@ def test_menu_computador_visivel_sem_hamburguer(abrir, pagina):
 @pytest.mark.parametrize(
     "origem, texto, destino",
     [
-        ("ministerios.html", "Cultos", "index.html#cultos"),
-        ("congregacoes.html", "Ofertas", "index.html#ofertas"),
-        ("index.html", "Ministérios", "ministerios.html"),
-        ("index.html", "Congregações", "congregacoes.html"),
-        ("ministerios.html", "Congregações", "congregacoes.html"),
+        ("ministerios.html", "Cultos", "/#cultos"),
+        ("congregacoes.html", "Ofertas", "/#ofertas"),
+        ("index.html", "Ministérios", "/ministerios"),
+        ("index.html", "Congregações", "/congregacoes"),
+        ("ministerios.html", "Congregações", "/congregacoes"),
     ],
 )
-def test_links_entre_paginas(abrir, origem, texto, destino):
+def test_links_entre_paginas(abrir, site_url, origem, texto, destino):
     page, problemas = abrir(origem, "celular")
     page.locator("#menuBtn").click()
     page.locator("#menu a", has_text=texto).click()
-    page.wait_for_url("**/" + destino)
+    page.wait_for_url(site_url + destino)
+    assert page.locator("#menu").count() == 1  # a página de destino carregou de verdade
     assert not problemas, "\n".join(problemas)
+
+
+@pytest.mark.parametrize(
+    "antigo, novo",
+    [
+        ("/congregacoes.html", "/congregacoes"),
+        ("/ministerios.html", "/ministerios"),
+        ("/index.html", "/"),
+        ("/congregacoes.html#natal", "/congregacoes#natal"),
+    ],
+)
+def test_links_antigos_com_html_continuam_funcionando(abrir, site_url, antigo, novo):
+    """Links já compartilhados com .html redirecionam para o endereço limpo (como na Vercel)."""
+    page, _ = abrir("index.html")
+    page.goto(site_url + antigo)
+    assert page.url == site_url + novo
 
 
 # ---------- Home: semana e "Próximo culto" ----------
