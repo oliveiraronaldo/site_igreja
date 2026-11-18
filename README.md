@@ -21,9 +21,23 @@ Site oficial da **Assembleia de Deus Missão**, em Ituiutaba (MG). É uma págin
 ├── style.css           # estilos de todas as páginas
 ├── script.js           # script de todas as páginas (CULTOS, CONGREGACOES…)
 ├── assets/             # imagens
-├── tests/              # testes automatizados (não vão para o site)
+├── vercel.json         # "cleanUrls": endereços sem .html
+├── tests/              # testes automatizados e servidor local (não vão para o site)
 └── .github/workflows/  # GitHub Actions: roda os testes a cada push
 ```
+
+### Endereços das páginas
+
+Os arquivos têm `.html`, mas os endereços não (opção `cleanUrls` do `vercel.json`):
+
+| Arquivo | Endereço |
+|---|---|
+| `index.html` | `/` |
+| `ministerios.html` | `/ministerios` |
+| `congregacoes.html` | `/congregacoes` (link direto: `/congregacoes#natal`) |
+
+Links antigos com `.html` redirecionam para o endereço novo. Nos links internos, use sempre
+o endereço sem `.html`: `ministerios`, `congregacoes`, `./` (home) e `./#cultos` (seção da home).
 
 ## Ambientes: desenvolvimento × produção
 
@@ -51,10 +65,11 @@ Fluxo de trabalho:
 Não é preciso instalar nada para ver o site. Na pasta do repositório:
 
 ```bash
-python -m http.server 8000
+python tests/servidor.py
 ```
 
-Depois acesse `http://localhost:8000`.
+Depois acesse `http://localhost:8000`. Esse servidor imita a Vercel (abre `/congregacoes` sem
+`.html`); o `python -m http.server` comum não faz isso e os links entre páginas dariam erro.
 
 ## Testes automatizados
 
@@ -68,7 +83,8 @@ Na primeira vez, o script instala o pytest, o Playwright e o Chromium (fica fora
 em `%USERPROFILE%\.venvs\site_igreja`). O que é testado:
 
 - todos os arquivos referenciados existem, com maiúsculas/minúsculas exatas (ex.: `fachada.PNG`);
-- âncoras (`#cultos`, `index.html#ofertas`…) apontam para seções que existem;
+- âncoras (`#cultos`, `./#ofertas`…) apontam para seções que existem;
+- links internos sem `.html` e links antigos com `.html` redirecionando para o endereço novo;
 - menu igual nas três páginas e página atual marcada;
 - lista `CULTOS` válida (dia de 0 a 6, horário HH:MM);
 - cada página no celular, tablet e computador: sem erros de JavaScript, imagens carregando,
