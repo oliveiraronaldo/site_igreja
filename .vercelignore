@@ -1,0 +1,6 @@
+# Arquivos do repositório que NÃO vão para o site publicado na Vercel.
+.github
+tests
+README.md
+.gitignore
+.vercelignore
