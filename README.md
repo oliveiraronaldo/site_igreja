@@ -15,30 +15,75 @@ Site oficial da **Assembleia de Deus Missão**, em Ituiutaba (MG). É uma págin
 
 ```
 .
-├── index.html   # o site inteiro (HTML, CSS e JS)
-└── README.md
+├── index.html          # home
+├── ministerios.html    # ministérios e música
+├── congregacoes.html   # congregações
+├── style.css           # estilos de todas as páginas
+├── script.js           # script de todas as páginas (CULTOS, CONGREGACOES…)
+├── assets/             # imagens
+├── tests/              # testes automatizados (não vão para o site)
+└── .github/workflows/  # GitHub Actions: roda os testes a cada push
 ```
+
+## Ambientes: desenvolvimento × produção
+
+| Ambiente | Branch | Onde aparece |
+|---|---|---|
+| **Local** | qualquer | `http://localhost:8000` no seu PC |
+| **Desenvolvimento (prévia)** | `dev` | link de prévia da Vercel (`…vercel.app`), visível só para quem tem acesso ao projeto na Vercel |
+| **Produção** | `main` | https://www.assembleiadedeusituiutaba.com |
+
+A Vercel publica **toda** branch: a `main` vai para o domínio oficial; as outras viram uma prévia.
+
+Fluxo de trabalho:
+
+1. Trabalhe sempre na branch `dev` (`git switch dev`).
+2. Teste no PC: `.\tests\rodar.ps1` e abra o site local.
+3. `git push` na `dev` → a Vercel gera a prévia e o GitHub Actions roda os testes.
+4. Confira a prévia (inclusive no celular).
+5. Quando estiver tudo certo, abra um *pull request* `dev → main` no GitHub. Com os testes
+   verdes, faça o merge: só aí o site oficial muda.
+
+**Nunca faça commit direto na `main`.**
 
 ## Rodando localmente
 
-Não é preciso instalar nada. Abra o `index.html` no navegador.
-
-Se preferir um servidor local:
+Não é preciso instalar nada para ver o site. Na pasta do repositório:
 
 ```bash
-python3 -m http.server 8000
+python -m http.server 8000
 ```
 
 Depois acesse `http://localhost:8000`.
 
+## Testes automatizados
+
+Na pasta do repositório, no PowerShell:
+
+```powershell
+.\tests\rodar.ps1
+```
+
+Na primeira vez, o script instala o pytest, o Playwright e o Chromium (fica fora do OneDrive,
+em `%USERPROFILE%\.venvs\site_igreja`). O que é testado:
+
+- todos os arquivos referenciados existem, com maiúsculas/minúsculas exatas (ex.: `fachada.PNG`);
+- âncoras (`#cultos`, `index.html#ofertas`…) apontam para seções que existem;
+- menu igual nas três páginas e página atual marcada;
+- lista `CULTOS` válida (dia de 0 a 6, horário HH:MM);
+- cada página no celular, tablet e computador: sem erros de JavaScript, imagens carregando,
+  sem rolagem horizontal;
+- menu do celular abre e fecha; links entre páginas funcionam;
+- quadro da semana e "Próximo culto" em vários dias e horários simulados;
+- ministérios, música e congregações renderizados.
+
+Os mesmos testes rodam no GitHub Actions a cada `git push` (aba **Actions** do repositório).
+
 ## Publicando na Vercel
 
-1. Envie este repositório para o GitHub.
-2. Na [Vercel](https://vercel.com), clique em **Add New → Project** e importe o repositório.
-3. Em **Framework Preset**, deixe como **Other**. Não há comando de build nem pasta de saída.
-4. Clique em **Deploy**.
-
-A cada `git push` na branch principal, a Vercel publica a nova versão automaticamente. Para usar um domínio próprio, vá em **Settings → Domains** no projeto.
+O projeto já está ligado à Vercel. Para referência: **Framework Preset → Other**, sem comando de
+build nem pasta de saída. O arquivo `.vercelignore` impede que `tests/`, `.github/` e este README
+sejam publicados.
 
 ## Como editar o conteúdo
 
