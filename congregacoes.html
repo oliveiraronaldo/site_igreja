@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Congregações – Assembleia de Deus Missão, Ituiutaba</title>
+    <meta name="description" content="Endereços e horários das congregações da Assembleia de Deus Missão em Ituiutaba, MG." />
+    <meta name="theme-color" content="#f3ece0" />
+    <link rel="icon" type="image/png" href="./assets/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script>document.documentElement.classList.add("js");</script>
+  </head>
+  <body class="page-congregacoes">
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- ============ Cabeçalho (igual em todas as páginas) ============ -->
+    <header id="topo">
+      <a class="mark" href="index.html" aria-label="Início">
+        <span class="mark-logo"><img src="./assets/logo.png" alt="" /></span>
+        <span class="mark-text">AD <i>Missão</i></span>
+      </a>
+      <nav id="menu" aria-label="Principal">
+        <a href="index.html#cultos">Cultos</a>
+        <a href="index.html#visite">Visite</a>
+        <a href="index.html#midia">Mídia</a>
+        <a href="index.html#ofertas">Ofertas</a>
+        <span class="nav-sep" aria-hidden="true"></span>
+        <a href="ministerios.html">Ministérios</a>
+        <a href="congregacoes.html" class="active" aria-current="page">Congregações</a>
+      </nav>
+      <a class="live" href="https://www.youtube.com/@assembleiadedeus.ituiutaba/live" target="_blank" rel="noopener">
+        <span class="live-dot"></span> Ao vivo
+      </a>
+      <button class="burger" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><span></span><span></span></button>
+    </header>
+
+    <main>
+      <!-- ============ Topo da página ============ -->
+      <section class="page-hero">
+        <p class="tag"><span>✦</span> Congregações</p>
+        <h1>Uma igreja,<br /><em>muitos endereços</em></h1>
+        <p class="hero-sub">A Assembleia de Deus Missão também se reúne em congregações pela cidade. Encontre a mais perto de você.</p>
+      </section>
+
+      <!-- ============ Lista de congregações ============ -->
+      <!-- Os cartões são gerados pelo script.js a partir da lista CONGREGACOES. -->
+      <section class="sec" id="lista">
+        <div class="sec-head">
+          <span class="num">01</span>
+          <h2>Perto de<br /><em>onde você mora</em></h2>
+          <p>Endereços e horários de cada congregação.</p>
+        </div>
+        <div class="congs" id="congs"></div>
+      </section>
+      <!-- ============ Convite ============ -->
+      <section class="sec">
+        <div class="cta-band">
+          <h2>Venha <em>fazer parte</em></h2>
+          <p>Também é uma alegria receber você na nossa sede. Confira os horários e venha nos conhecer.</p>
+          <div class="hero-cta">
+            <a class="pill dark" href="index.html#cultos">Ver horários dos cultos</a>
+            <a class="pill line" href="index.html#visite">Como chegar</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p class="big">Assembleia de Deus <em>Missão</em></p>
+      <div class="foot-row">
+        <span>Ituiutaba, MG</span>
+        <span class="foot-social">
+          <a href="https://www.youtube.com/@assembleiadedeus.ituiutaba" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://www.instagram.com/assembleiadedeus.ituiutaba" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://chat.whatsapp.com/AYAnTS1vn7K410V5juhOML?s=sw&amp;p=i&amp;mlu=4&amp;ilr=4&amp;iam=2" target="_blank" rel="noopener">WhatsApp</a>
+        </span>
+        <span>© <span id="year">2026</span></span>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
