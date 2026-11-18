@@ -182,10 +182,72 @@ def test_ministerios_e_musica(abrir):
 
 # ---------- Congregações ----------
 
-def test_congregacoes_mostra_em_breve_ou_cartoes(abrir):
+CONGREGACOES = [
+    # (id, nome, instagram, link do mapa)
+    ("bairro-brasil", "Bairro Brasil", "ad_congregacao_bairrobrasil", "https://maps.app.goo.gl/HGppquKA7rgeLJ2SA"),
+    ("natal", "Natal", "congregacao.natal", "https://maps.app.goo.gl/eu6DktSDnmKZe6UA7"),
+    ("junqueira", "Junqueira", "ad_congregacao_junqueira_", "https://maps.app.goo.gl/dNiByoSzQAm9JAXaA"),
+    ("alvorada", "Alvorada", "congregacaoalvoradaituiutaba", "https://maps.app.goo.gl/amw8D5Mt69cWVESS8"),
+    ("pirapitinga", "Pirapitinga", "congregacao.pirapitinga", "https://maps.app.goo.gl/QjM6Fx8ffwnCw78C9"),
+]
+
+
+def _painel_mostra(page, nome, instagram, mapa):
+    painel = page.locator("#cgPanel")
+    assert painel.locator("h3").text_content().strip() == nome
+    insta = painel.locator("a.cg-insta")
+    assert insta.get_attribute("href") == "https://www.instagram.com/%s/" % instagram
+    assert "@" + instagram in insta.text_content()
+    assert painel.locator("a", has_text="Como chegar").get_attribute("href") == mapa
+    assert painel.locator(".cg-map iframe").count() == 1
+    selecionada = page.locator('.cg-tab[aria-selected="true"]')
+    assert selecionada.count() == 1
+    assert nome in selecionada.text_content()
+
+
+@pytest.mark.parametrize("tela", ["celular", "computador"])
+def test_congregacoes_menu_troca_instagram_e_mapa(abrir, tela):
+    page, problemas = abrir("congregacoes.html", tela)
+    assert page.locator(".cg-tab").count() == len(CONGREGACOES)
+    assert page.locator("#congs .congs-empty").count() == 0
+    _painel_mostra(page, *CONGREGACOES[0][1:])  # abre na primeira
+
+    for cid, nome, insta, mapa in reversed(CONGREGACOES):
+        page.locator(".cg-tab", has_text=nome).click()
+        _painel_mostra(page, nome, insta, mapa)
+        assert page.evaluate("location.hash") == "#" + cid
+    assert not problemas, "\n".join(problemas)
+
+
+@pytest.mark.parametrize("cid, nome, insta, mapa", CONGREGACOES)
+def test_congregacoes_link_direto(abrir, cid, nome, insta, mapa):
+    page, _ = abrir("congregacoes.html#" + cid, "celular")
+    _painel_mostra(page, nome, insta, mapa)
+
+
+
+@pytest.mark.parametrize("tela", TELAS)
+def test_congregacoes_todas_as_opcoes_a_vista(abrir, tela):
+    """Nenhuma congregação pode ficar escondida (ex.: precisando rolar para o lado)."""
+    page, _ = abrir("congregacoes.html", tela)
+    lista = page.locator(".cg-list")
+    assert page.evaluate("document.querySelector('.cg-list').scrollWidth <= document.querySelector('.cg-list').clientWidth")
+    largura = TELAS[tela]["width"]
+    for i in range(page.locator(".cg-tab").count()):
+        aba = lista.locator(".cg-tab").nth(i)
+        caixa = aba.bounding_box()
+        assert caixa["x"] >= 0 and caixa["x"] + caixa["width"] <= largura, aba.text_content()
+        # o nome aparece inteiro, sem ser cortado com "…"
+        assert page.evaluate("(el) => el.scrollWidth <= el.clientWidth", aba.locator(".cg-name").element_handle()), aba.text_content()
+
+
+def test_congregacoes_teclado(abrir):
     page, _ = abrir("congregacoes.html")
-    cartoes = page.locator("#congs .cong").count()
-    em_breve = page.locator("#congs .congs-empty").count()
-    assert (cartoes > 0) != (em_breve > 0), "Deve haver cartões OU o aviso 'Em breve', nunca os dois/nenhum"
-    for i in range(cartoes):
-        assert page.locator("#congs .cong").nth(i).locator("a", has_text="Como chegar").count() == 1
+    page.locator(".cg-tab").first.focus()
+    page.keyboard.press("ArrowDown")
+    _painel_mostra(page, *CONGREGACOES[1][1:])
+    page.keyboard.press("End")
+    _painel_mostra(page, *CONGREGACOES[-1][1:])
+    page.keyboard.press("ArrowDown")  # volta para a primeira
+    _painel_mostra(page, *CONGREGACOES[0][1:])
+    assert page.evaluate("document.activeElement.getAttribute('aria-selected')") == "true"

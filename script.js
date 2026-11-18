@@ -18,24 +18,53 @@ var CULTOS = [
 ];
 
 // ---------- Congregações (página congregacoes.html) ----------
-// Copie o modelo abaixo para cada congregação, tire o "//" do começo
-// das linhas e preencha. A ordem da lista é a ordem dos cartões.
-//   nome:     nome da congregação
-//   bairro:   aparece como etiqueta no cartão
-//   endereco: rua e número
-//   cultos:   d = dia (0 = domingo … 6 = sábado), h = horário, n = nome (opcional)
-//   mapa:     link do Google Maps (opcional; sem ele, o botão busca pelo endereço)
+// A ordem da lista é a ordem do menu. Campos:
+//   id:        usado no link direto (congregacoes.html#id), sem espaços nem acentos
+//   nome:      nome da congregação
+//   endereco:  rua, número e bairro (opcional)
+//   instagram: usuário do Instagram, sem o @
+//   mapa:      link do Google Maps ("Compartilhar" no app do Maps)
+//   lat, lng:  coordenadas, para o mapa da página (no Maps: clique com o botão direito no local)
+//   cultos:    opcional. d = dia (0 = domingo … 6 = sábado), h = horário, n = nome
+//              ex.: cultos: [{ d: 0, h: "19:00", n: "Culto de Celebração" }],
 var CONGREGACOES = [
-  // {
-  //   nome: "Congregação Exemplo",
-  //   bairro: "Bairro Exemplo",
-  //   endereco: "Rua Exemplo, 123",
-  //   cultos: [
-  //     { d: 0, h: "19:00", n: "Culto de Celebração" },
-  //     { d: 3, h: "19:30", n: "Culto de Oração" },
-  //   ],
-  //   mapa: "",
-  // },
+  {
+    id: "bairro-brasil",
+    nome: "Bairro Brasil",
+    instagram: "ad_congregacao_bairrobrasil",
+    mapa: "https://maps.app.goo.gl/HGppquKA7rgeLJ2SA",
+    lat: -18.9923452, lng: -49.4474326,
+  },
+  {
+    id: "natal",
+    nome: "Natal",
+    instagram: "congregacao.natal",
+    mapa: "https://maps.app.goo.gl/eu6DktSDnmKZe6UA7",
+    lat: -18.995488, lng: -49.470633,
+  },
+  {
+    id: "junqueira",
+    nome: "Junqueira",
+    endereco: "Rua José Silva Ramos, 1045 – Alcides Junqueira",
+    instagram: "ad_congregacao_junqueira_",
+    mapa: "https://maps.app.goo.gl/dNiByoSzQAm9JAXaA",
+    lat: -18.9888505, lng: -49.4514508,
+  },
+  {
+    id: "alvorada",
+    nome: "Alvorada",
+    instagram: "congregacaoalvoradaituiutaba",
+    mapa: "https://maps.app.goo.gl/amw8D5Mt69cWVESS8",
+    lat: -18.9677441, lng: -49.4773517,
+  },
+  {
+    id: "pirapitinga",
+    nome: "Pirapitinga",
+    endereco: "Rua Campina Verde, 513 – Pirapitinga",
+    instagram: "congregacao.pirapitinga",
+    mapa: "https://maps.app.goo.gl/QjM6Fx8ffwnCw78C9",
+    lat: -18.987611, lng: -49.4792332,
+  },
 ];
 
 var hoje = new Date();
@@ -108,25 +137,91 @@ if ($("nextName")) {
       '<a href="https://www.instagram.com/assembleiadedeus.ituiutaba" target="_blank" rel="noopener">Instagram</a>.</p></div>';
     return;
   }
+  // Menu (lista de abas) + painel da congregação escolhida
+  box.className = "cg rv";
+  box.innerHTML =
+    '<div class="cg-list" role="tablist" aria-label="Congregações" aria-orientation="vertical"></div>' +
+    '<div class="cg-panel" role="tabpanel" id="cgPanel" tabindex="0"></div>';
+  var lista = box.querySelector(".cg-list"),
+    painel = $("cgPanel"),
+    abas = [];
+
   CONGREGACOES.forEach(function (c, i) {
+    var aba = document.createElement("button");
+    aba.type = "button";
+    aba.className = "cg-tab";
+    aba.id = "cg-" + c.id;
+    aba.setAttribute("role", "tab");
+    aba.setAttribute("aria-controls", "cgPanel");
+    aba.innerHTML = '<span class="cg-no">' + ("0" + (i + 1)).slice(-2) + '</span><span class="cg-name">' + c.nome + "</span>";
+    aba.addEventListener("click", function () { mostrar(i, true); });
+    lista.appendChild(aba);
+    abas.push(aba);
+  });
+
+  // Setas, Home e End trocam de congregação (padrão de abas acessíveis)
+  lista.addEventListener("keydown", function (e) {
+    var atual = abas.indexOf(document.activeElement), novo = -1, n = abas.length;
+    if (atual < 0) return;
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") novo = (atual + 1) % n;
+    else if (e.key === "ArrowUp" || e.key === "ArrowLeft") novo = (atual - 1 + n) % n;
+    else if (e.key === "Home") novo = 0;
+    else if (e.key === "End") novo = n - 1;
+    if (novo < 0) return;
+    e.preventDefault();
+    mostrar(novo, true);
+    abas[novo].focus();
+  });
+
+  function mostrar(i, mudarLink) {
+    var c = CONGREGACOES[i];
+    abas.forEach(function (a, j) {
+      a.setAttribute("aria-selected", j === i ? "true" : "false");
+      a.tabIndex = j === i ? 0 : -1;
+    });
+    painel.setAttribute("aria-labelledby", abas[i].id);
+
+    // No celular o menu rola para o lado: deixa a congregação escolhida à vista
+    if (lista.scrollWidth > lista.clientWidth) {
+      var folga = parseFloat(getComputedStyle(lista).paddingLeft) || 0;
+      lista.scrollLeft += abas[i].getBoundingClientRect().left - lista.getBoundingClientRect().left - folga;
+    }
+
+    var cultos = (c.cultos || []).slice().sort(function (a, b) { return a.d - b.d || (a.h > b.h ? 1 : -1); });
     var mapa = c.mapa ||
       "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent((c.endereco || c.nome) + ", Ituiutaba - MG");
-    var cultos = (c.cultos || []).slice().sort(function (a, b) { return a.d - b.d || (a.h > b.h ? 1 : -1); });
-    var card = document.createElement("article");
-    card.className = "cong rv";
-    card.style.setProperty("--d", (i % 3) * 0.08 + "s");
-    card.innerHTML =
-      (c.bairro ? '<span class="cong-tag">' + c.bairro + "</span>" : "") +
-      "<h3>" + c.nome + "</h3>" +
-      (c.endereco ? '<p class="cong-addr">' + c.endereco + "</p>" : "") +
-      (cultos.length
-        ? '<ul class="cong-times">' + cultos.map(function (x) {
-            return "<li><span>" + CURTO[x.d] + "</span><time>" + x.h + "</time>" + (x.n ? "<em>" + x.n + "</em>" : "") + "</li>";
-          }).join("") + "</ul>"
-        : "") +
-      '<a class="pill line" href="' + mapa + '" target="_blank" rel="noopener">Como chegar ↗</a>';
-    box.appendChild(card);
-  });
+    var embed = c.lat != null
+      ? "https://maps.google.com/maps?q=" + c.lat + "," + c.lng + "&z=17&hl=pt-BR&output=embed"
+      : "https://maps.google.com/maps?q=" + encodeURIComponent((c.endereco || c.nome) + ", Ituiutaba - MG") + "&z=16&hl=pt-BR&output=embed";
+
+    painel.innerHTML =
+      '<div class="cg-info">' +
+        '<span class="cg-tag">Congregação</span>' +
+        "<h3>" + c.nome + "</h3>" +
+        (c.endereco ? '<p class="cg-addr">' + c.endereco + "<br />Ituiutaba – MG</p>" : "") +
+        (cultos.length
+          ? '<ul class="cg-times">' + cultos.map(function (x) {
+              return "<li><span>" + CURTO[x.d] + "</span><time>" + x.h + "</time>" + (x.n ? "<em>" + x.n + "</em>" : "") + "</li>";
+            }).join("") + "</ul>"
+          : '<p class="cg-note">Horários e novidades no Instagram da congregação.</p>') +
+        '<div class="cg-actions">' +
+          (c.instagram
+            ? '<a class="pill dark cg-insta" href="https://www.instagram.com/' + c.instagram + '/" target="_blank" rel="noopener">' +
+              '<img src="./assets/instagram.png" alt="" /> @' + c.instagram + "</a>"
+            : "") +
+          '<a class="pill line" href="' + mapa + '" target="_blank" rel="noopener">Como chegar ↗</a>' +
+        "</div>" +
+      "</div>" +
+      '<div class="cg-map"><iframe src="' + embed + '" title="Mapa da congregação ' + c.nome +
+        '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>';
+
+    if (mudarLink && window.history && history.replaceState) history.replaceState(null, "", "#" + c.id);
+  }
+
+  // Abre a congregação do link (congregacoes.html#natal) ou a primeira
+  var inicial = 0;
+  CONGREGACOES.forEach(function (c, i) { if (location.hash === "#" + c.id) inicial = i; });
+  mostrar(inicial, false);
 })();
 
 // ---------- Menu ----------

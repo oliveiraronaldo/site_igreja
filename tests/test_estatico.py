@@ -135,6 +135,23 @@ def test_pagina_carrega_css_e_script(pagina):
     assert any(t == "script" and a.get("src") == "script.js" for t, a, _ in tags)
 
 
+def test_home_tem_chamadas_para_ministerios_e_congregacoes():
+    destinos = [a.get("href") for tag, a, _ in _ler("index.html").tags if tag == "a" and "teaser" in a.get("class", "")]
+    assert destinos == ["ministerios.html", "congregacoes.html"]
+
+
+def test_chamada_da_home_cita_todas_as_congregacoes():
+    """Ao incluir uma congregação no script.js, lembre de citá-la na chamada da home."""
+    js = (RAIZ / "script.js").read_text(encoding="utf-8")
+    bloco = re.search(r"var CONGREGACOES = \[(.*?)\n\];", js, re.S).group(1)
+    nomes = re.findall(r'^\s*nome:\s*"([^"]+)"', bloco, re.M)
+    assert nomes, "Nenhuma congregação encontrada no script.js"
+    home = (RAIZ / "index.html").read_text(encoding="utf-8")
+    trecho = home.split('<a class="teaser" href="congregacoes.html">', 1)[1].split("</a>", 1)[0]
+    faltando = [n for n in nomes if n not in trecho]
+    assert not faltando, "Congregações não citadas na chamada da home: %s" % faltando
+
+
 def test_lista_de_cultos_valida():
     js = (RAIZ / "script.js").read_text(encoding="utf-8")
     bloco = re.search(r"var CULTOS = \[(.*?)\];", js, re.S).group(1)
