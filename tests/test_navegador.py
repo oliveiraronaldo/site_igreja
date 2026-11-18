@@ -13,6 +13,8 @@ TELAS = {
     "tablet": {"width": 768, "height": 1024},
     "computador": {"width": 1280, "height": 800},
 }
+# Android comum e estreito; usado só em testes de layout específicos
+TELAS_EXTRAS = {"celular-pequeno": {"width": 360, "height": 740}}
 FUSO = datetime.timezone(datetime.timedelta(hours=-3))  # horário de Brasília
 
 
@@ -22,7 +24,7 @@ def abrir(browser, site_url):
     contextos = []
 
     def _abrir(pagina, tela="computador", agora=None):
-        ctx = browser.new_context(viewport=TELAS[tela], timezone_id="America/Sao_Paulo", locale="pt-BR")
+        ctx = browser.new_context(viewport=dict(TELAS, **TELAS_EXTRAS)[tela], timezone_id="America/Sao_Paulo", locale="pt-BR")
         contextos.append(ctx)
         problemas = []
 
@@ -226,13 +228,13 @@ def test_congregacoes_link_direto(abrir, cid, nome, insta, mapa):
 
 
 
-@pytest.mark.parametrize("tela", TELAS)
+@pytest.mark.parametrize("tela", ["celular-pequeno"] + list(TELAS))
 def test_congregacoes_todas_as_opcoes_a_vista(abrir, tela):
-    """Nenhuma congregação pode ficar escondida (ex.: precisando rolar para o lado)."""
+    """Nenhuma congregação pode ficar escondida (ex.: precisando rolar para o lado) nem com o nome cortado."""
     page, _ = abrir("congregacoes.html", tela)
     lista = page.locator(".cg-list")
     assert page.evaluate("document.querySelector('.cg-list').scrollWidth <= document.querySelector('.cg-list').clientWidth")
-    largura = TELAS[tela]["width"]
+    largura = dict(TELAS, **TELAS_EXTRAS)[tela]["width"]
     for i in range(page.locator(".cg-tab").count()):
         aba = lista.locator(".cg-tab").nth(i)
         caixa = aba.bounding_box()

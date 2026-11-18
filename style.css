@@ -319,11 +319,11 @@ nav a[aria-current="page"]{background:var(--ink);color:var(--cream)}
 @media (max-width:900px){
   .nav-sep{width:auto;height:1px;margin:.35rem .6rem}
   .teaser{grid-template-columns:1fr;justify-items:start}
-  /* No celular/tablet o menu vira uma grade de botões: todas as opções à vista, sem rolar para o lado */
+  /* No celular/tablet o menu vira botões que quebram de linha: todas as opções à vista,
+     sem rolar para o lado e sem cortar nomes (cada botão tem a largura do próprio nome) */
   .cg{grid-template-columns:1fr}
-  .cg-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.5rem;border-top:0}
-  .cg-tab{display:flex;width:auto;min-width:0;gap:.5rem;padding:.7rem 1rem;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
-  .cg-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cg-list{flex-direction:row;flex-wrap:wrap;gap:.5rem;border-top:0}
+  .cg-tab{display:flex;flex:1 1 auto;width:auto;gap:.5rem;padding:.7rem 1rem;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden;white-space:nowrap}
   .cg-tab:hover,.cg-tab[aria-selected="true"]{padding-left:1rem}
   .cg-tab::after{display:none}
   .cg-no{font-size:.95rem}
