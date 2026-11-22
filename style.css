@@ -192,6 +192,8 @@ footer{padding:4rem var(--pad) 2rem;max-width:1320px;margin:0 auto;overflow:hidd
 .foot-social{display:flex;gap:1.4rem}
 .foot-social a{text-decoration:none}
 .foot-social a:hover{color:var(--ember)}
+.foot-contact a{color:var(--ink);text-decoration:none;overflow-wrap:anywhere}
+.foot-contact a:hover{color:var(--ember)}
 
 /* ============ Música – discos ============ */
 .records{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(1.5rem,4vw,3.5rem);padding-right:clamp(0rem,6vw,5rem)}
