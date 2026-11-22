@@ -197,6 +197,12 @@ def test_rodape_tem_email_de_contato(pagina):
     assert ">%s</a>" % EMAIL_CONTATO in rodape, "O e-mail deve aparecer escrito, não só no link"
 
 
+def test_chave_pix_email_fora_do_site():
+    """Chave PIX (e-mail) retirada temporariamente. Ao recolocá-la, apague este teste."""
+    for arquivo in PAGINAS + ["script.js"]:
+        assert "pix.ituiutaba@" not in (RAIZ / arquivo).read_text(encoding="utf-8"), arquivo
+
+
 def test_lista_de_cultos_valida():
     js = (RAIZ / "script.js").read_text(encoding="utf-8")
     bloco = re.search(r"var CULTOS = \[(.*?)\];", js, re.S).group(1)

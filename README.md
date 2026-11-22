@@ -129,7 +129,18 @@ Procure a seção `#midia` e troque os endereços nos links `<a href="...">`.
 
 ### PIX
 
-Troque a chave na seção `#ofertas`, no elemento com `id="pixKey"`.
+A chave PIX (e-mail) e o botão "Copiar chave" estão **retirados temporariamente**; o cartão
+mostra só o QR Code. Para voltar, reverta o commit "PIX: retirar temporariamente a chave
+(e-mail)" (`git revert <commit>`) ou recoloque na seção `#ofertas`, depois do QR Code:
+
+```html
+<p class="pix-label">Chave (e-mail)</p>
+<code id="pixKey">CHAVE</code>
+<button type="button" id="copyPix"><span class="copy-label">Copiar chave</span></button>
+<span class="ok" id="copyOk" role="status"></span>
+```
+
+O botão de copiar volta a funcionar sozinho (o código continua no `script.js`).
 
 ### Mapa
 
