@@ -176,6 +176,27 @@ def test_chamada_da_home_cita_todas_as_congregacoes():
     assert not faltando, "Congregações não citadas na chamada da home: %s" % faltando
 
 
+EMAIL_CONTATO = "admissao10ituiutaba@gmail.com"
+
+
+def _rodape(pagina):
+    texto = (RAIZ / pagina).read_text(encoding="utf-8")
+    return texto.split("<footer>", 1)[1].split("</footer>", 1)[0]
+
+
+def test_rodape_igual_nas_tres_paginas():
+    referencia = _rodape("index.html")
+    for pagina in PAGINAS:
+        assert _rodape(pagina) == referencia, "Rodapé de %s difere da home" % pagina
+
+
+@pytest.mark.parametrize("pagina", PAGINAS)
+def test_rodape_tem_email_de_contato(pagina):
+    rodape = _rodape(pagina)
+    assert 'href="mailto:%s"' % EMAIL_CONTATO in rodape
+    assert ">%s</a>" % EMAIL_CONTATO in rodape, "O e-mail deve aparecer escrito, não só no link"
+
+
 def test_lista_de_cultos_valida():
     js = (RAIZ / "script.js").read_text(encoding="utf-8")
     bloco = re.search(r"var CULTOS = \[(.*?)\];", js, re.S).group(1)
