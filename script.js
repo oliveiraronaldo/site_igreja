@@ -249,7 +249,7 @@ window.addEventListener("scroll", function () {
 window.addEventListener("load", function () { document.body.classList.add("loaded"); });
 
 // ---------- Animação de entrada + link ativo ----------
-document.querySelectorAll(".sec-head, .a-card, .record, .index li, .pixcard, .give-copy, .map, .visit-card, .teaser, .cta-band").forEach(function (el) {
+document.querySelectorAll(".sec-head, .a-card, .record, .index li, .pixcard, .give-copy, .map, .visit-card, .teaser, .cta-band, .qs-quote, .qs-pillars li, .qs-timeline li, .qs-card, .qs-data").forEach(function (el) {
   el.classList.add("rv");
 });
 document.querySelectorAll(".arches .a-card, .records .record, .index li").forEach(function (el) {

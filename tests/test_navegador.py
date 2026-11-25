@@ -112,7 +112,7 @@ def test_menu_celular_abre_e_fecha(abrir, pagina):
 def test_menu_computador_visivel_sem_hamburguer(abrir, pagina):
     page, _ = abrir(pagina, "computador")
     assert not page.locator("#menuBtn").is_visible()
-    for texto in ["Cultos", "Visite", "Mídia", "Ofertas", "Ministérios", "Congregações"]:
+    for texto in ["Cultos", "Visite", "Mídia", "Ofertas", "Quem somos", "Ministérios", "Congregações"]:
         assert page.locator("#menu a", has_text=texto).is_visible(), texto
 
 
