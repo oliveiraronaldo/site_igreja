@@ -9,9 +9,9 @@ import pytest
 import servidor
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
-PAGINAS = ["index.html", "ministerios.html", "congregacoes.html"]
+PAGINAS = ["index.html", "quem-somos.html", "ministerios.html", "congregacoes.html"]
 # Endereço público de cada página (vercel.json: "cleanUrls": true)
-ENDERECO = {"index.html": "", "ministerios.html": "ministerios", "congregacoes.html": "congregacoes"}
+ENDERECO = {"index.html": "", "quem-somos.html": "quem-somos", "ministerios.html": "ministerios", "congregacoes.html": "congregacoes"}
 
 
 @pytest.fixture(scope="session")

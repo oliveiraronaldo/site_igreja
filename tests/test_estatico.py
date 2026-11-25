@@ -118,7 +118,7 @@ def test_menu_igual_nas_tres_paginas():
         assert itens == referencia, "Menu de %s difere da home: %s" % (pagina, itens)
 
 
-@pytest.mark.parametrize("pagina", ["ministerios.html", "congregacoes.html"])
+@pytest.mark.parametrize("pagina", ["quem-somos.html", "ministerios.html", "congregacoes.html"])
 def test_pagina_atual_marcada_no_menu(pagina):
     atuais = [h for h, atual in _menu(pagina) if atual == "page"]
     assert atuais == [ENDERECO[pagina]]
@@ -161,7 +161,7 @@ def test_pagina_carrega_css_e_script(pagina):
 
 def test_home_tem_chamadas_para_ministerios_e_congregacoes():
     destinos = [a.get("href") for tag, a, _ in _ler("index.html").tags if tag == "a" and "teaser" in a.get("class", "")]
-    assert destinos == ["ministerios", "congregacoes"]
+    assert destinos == ["quem-somos", "ministerios", "congregacoes"]
 
 
 def test_chamada_da_home_cita_todas_as_congregacoes():
@@ -176,7 +176,7 @@ def test_chamada_da_home_cita_todas_as_congregacoes():
     assert not faltando, "Congregações não citadas na chamada da home: %s" % faltando
 
 
-EMAIL_CONTATO = "admissao10ituiutaba@gmail.com"
+EMAIL_CONTATO = "admissao@assembleiadedeusituiutaba.com"
 
 
 def _rodape(pagina):
@@ -184,7 +184,7 @@ def _rodape(pagina):
     return texto.split("<footer>", 1)[1].split("</footer>", 1)[0]
 
 
-def test_rodape_igual_nas_tres_paginas():
+def test_rodape_igual_em_todas_as_paginas():
     referencia = _rodape("index.html")
     for pagina in PAGINAS:
         assert _rodape(pagina) == referencia, "Rodapé de %s difere da home" % pagina
@@ -212,3 +212,45 @@ def test_lista_de_cultos_valida():
         assert 0 <= int(d) <= 6, "Dia inválido em %s" % n
         assert re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", h), "Horário inválido: %s (%s)" % (h, n)
         assert n.strip(), "Culto sem nome"
+
+
+# ---------- Transparência (exigência de programas para organizações sem fins lucrativos) ----------
+
+CNPJ = "06.225.125/0001-04"
+RAZAO_SOCIAL = "Igreja Evangélica Assembleia de Deus em Ituiutaba"
+
+
+@pytest.mark.parametrize("pagina", PAGINAS)
+def test_rodape_tem_cnpj_e_razao_social(pagina):
+    rodape = _rodape(pagina)
+    assert CNPJ in rodape and RAZAO_SOCIAL in rodape
+
+
+def test_quem_somos_tem_historia_missao_e_atividades():
+    coletor = _ler("quem-somos.html")
+    for secao in ["historia", "missao"]:
+        assert secao in coletor.ids, "Falta a seção #%s em quem-somos.html" % secao
+    assert "dados" not in coletor.ids, "A seção Dados oficiais foi retirada (o CNPJ fica no rodapé)"
+
+
+def test_nome_do_pastor_fundador():
+    for arquivo in PAGINAS:
+        assert "Heraldo" not in (RAIZ / arquivo).read_text(encoding="utf-8"), "O nome é Eraldo"
+
+
+def test_cnpj_valido():
+    """Confere os dígitos verificadores, para pegar erro de digitação."""
+    n = [int(c) for c in CNPJ if c.isdigit()]
+    def dv(base, pesos):
+        r = sum(a * b for a, b in zip(base, pesos)) % 11
+        return 0 if r < 2 else 11 - r
+    p1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+    assert dv(n[:12], p1) == n[12] and dv(n[:13], [6] + p1) == n[13]
+
+
+def test_sem_email_generico_nem_mencao_a_outra_sede():
+    """Programa exige e-mail com domínio próprio; o site fala só da igreja em Ituiutaba."""
+    for arquivo in PAGINAS + ["script.js"]:
+        texto = (RAIZ / arquivo).read_text(encoding="utf-8").lower()
+        assert "@gmail." not in texto and "@hotmail." not in texto and "@outlook." not in texto, arquivo
+        assert "são josé" not in texto and "sjcampos" not in texto, arquivo
