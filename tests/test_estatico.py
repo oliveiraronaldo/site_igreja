@@ -226,12 +226,16 @@ def test_rodape_tem_cnpj_e_razao_social(pagina):
     assert CNPJ in rodape and RAZAO_SOCIAL in rodape
 
 
-def test_quem_somos_tem_missao_historia_atividades_e_dados():
+def test_quem_somos_tem_historia_missao_e_atividades():
     coletor = _ler("quem-somos.html")
-    for secao in ["missao", "historia", "atividades", "dados"]:
+    for secao in ["historia", "missao", "atividades"]:
         assert secao in coletor.ids, "Falta a seção #%s em quem-somos.html" % secao
-    texto = (RAIZ / "quem-somos.html").read_text(encoding="utf-8")
-    assert CNPJ in texto and RAZAO_SOCIAL in texto
+    assert "dados" not in coletor.ids, "A seção Dados oficiais foi retirada (o CNPJ fica no rodapé)"
+
+
+def test_nome_do_pastor_fundador():
+    for arquivo in PAGINAS:
+        assert "Heraldo" not in (RAIZ / arquivo).read_text(encoding="utf-8"), "O nome é Eraldo"
 
 
 def test_cnpj_valido():
