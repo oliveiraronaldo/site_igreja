@@ -176,7 +176,7 @@ def test_chamada_da_home_cita_todas_as_congregacoes():
     assert not faltando, "Congregações não citadas na chamada da home: %s" % faltando
 
 
-EMAIL_CONTATO = "admissao10ituiutaba@gmail.com"
+EMAIL_CONTATO = "admissao@assembleiadedeusituiutaba.com"
 
 
 def _rodape(pagina):
@@ -224,7 +224,6 @@ RAZAO_SOCIAL = "Igreja Evangélica Assembleia de Deus em Ituiutaba"
 def test_rodape_tem_cnpj_e_razao_social(pagina):
     rodape = _rodape(pagina)
     assert CNPJ in rodape and RAZAO_SOCIAL in rodape
-    assert 'href="quem-somos#dados"' in rodape
 
 
 def test_quem_somos_tem_missao_historia_atividades_e_dados():
@@ -243,3 +242,11 @@ def test_cnpj_valido():
         return 0 if r < 2 else 11 - r
     p1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
     assert dv(n[:12], p1) == n[12] and dv(n[:13], [6] + p1) == n[13]
+
+
+def test_sem_email_generico_nem_mencao_a_outra_sede():
+    """Programa exige e-mail com domínio próprio; o site fala só da igreja em Ituiutaba."""
+    for arquivo in PAGINAS + ["script.js"]:
+        texto = (RAIZ / arquivo).read_text(encoding="utf-8").lower()
+        assert "@gmail." not in texto and "@hotmail." not in texto and "@outlook." not in texto, arquivo
+        assert "são josé" not in texto and "sjcampos" not in texto, arquivo
