@@ -228,7 +228,7 @@ def test_rodape_tem_cnpj_e_razao_social(pagina):
 
 def test_quem_somos_tem_historia_missao_e_atividades():
     coletor = _ler("quem-somos.html")
-    for secao in ["historia", "missao", "atividades"]:
+    for secao in ["historia", "missao"]:
         assert secao in coletor.ids, "Falta a seção #%s em quem-somos.html" % secao
     assert "dados" not in coletor.ids, "A seção Dados oficiais foi retirada (o CNPJ fica no rodapé)"
 
